@@ -55,17 +55,70 @@ public class PizzaPreferences extends AppCompatActivity {
      * of costs.
      * @param vw is the button associated with the calculateCost method
      */
-    public void calculateCost(View vw){
+    public void calculateCost(View vw) {
 
         Intent calculatePizzaCost = new Intent(this, CostCalculator.class);
         boolean[] hasToppings = new boolean[toppings.length];
 
         //insert your code here
+        String pizzaSize = "";
+        String pizzaCrust = "";
+        boolean crustGarlic;
+
+
+        for (int i = 0; i < toppings.length; i++) {
+            if (toppings[i].isChecked()) {
+                hasToppings[i] = true;
+
+            } else {
+                hasToppings[i] = false;
+            }
+
+        }
+        if (rdobtnSmall.isChecked()) {
+            pizzaSize = "Small";
+
+        } else if (rdobtnIndividual.isChecked()) {
+            pizzaSize = "Individual";
+
+        } else if (rdobtnMedium.isChecked()) {
+            pizzaSize = "Medium";
+
+        } else if (rdobtnLarge.isChecked()) {
+            pizzaSize = "Large";
+
+        } else {
+            rdobtnExtraLarge.setChecked(true);
+            pizzaSize = "Extra Large";
+
+        }
+
+        if (rdobtnThin.isChecked()) {
+            pizzaCrust = "Thin";
+
+        } else if (rdobtnThick.isChecked()) {
+            pizzaCrust = "Thick";
+
+        } else {
+            rdobtnCheeseFilled.setChecked(true);
+            pizzaCrust = "Cheese Filled";
+
+        }
+        if (chkboxGarlic.isChecked()) {
+            crustGarlic = true;
+        } else {
+            crustGarlic = false;
+        }
 
         calculatePizzaCost.putExtra("TOPPINGS_BOOLEANS", hasToppings);
         startActivityForResult(calculatePizzaCost, 0);
+        calculatePizzaCost.putExtra("HAS_GARLIC_CRUST", crustGarlic);
+        startActivityForResult(calculatePizzaCost, 0);
+        calculatePizzaCost.putExtra("SIZE_SELECTION", pizzaSize);
+        startActivityForResult(calculatePizzaCost, 0);
+        calculatePizzaCost.putExtra("CRUST_SELECTION", pizzaCrust);
+        startActivityForResult(calculatePizzaCost, 0);
     }
-
     /**
      * onActivityResult is the code that is run upon completion of the Intent linked to this
      * activity. The code below deselects all checkboxes and radio buttons for another selection
@@ -88,5 +141,8 @@ public class PizzaPreferences extends AppCompatActivity {
         rdobtnThick.setChecked(false);
         rdobtnCheeseFilled.setChecked(false);
         chkboxGarlic.setChecked(false);
+
+
     }
+
 }
